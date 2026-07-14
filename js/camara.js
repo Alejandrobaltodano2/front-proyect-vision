@@ -80,8 +80,7 @@ async function _analizarFrame() {
   const dataUrl = canvas.toDataURL('image/jpeg', 0.45)
 
   try {
-    const res  = await fetch(`${server_preguntas}/api/deteccion/detect`, {
-      method:  'POST',
+      const res  = await authFetch(`${server_preguntas}/api/deteccion/detect`, {      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ frame: dataUrl }),
     })

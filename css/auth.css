@@ -1,0 +1,106 @@
+/* ════════════════════════════════════════════
+   auth.css — Login / Registro
+   Diseño simple, usa las mismas variables y
+   componentes (.card, .btn) de styles.css.
+   ════════════════════════════════════════════ */
+
+.auth-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+}
+
+.auth-label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--soft);
+}
+
+.auth-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.auth-input:focus {
+  border-color: var(--accent);
+}
+
+.auth-btn {
+  margin-top: 20px;
+}
+
+.auth-mensaje {
+  margin-top: 14px;
+  font-size: 13px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.auth-mensaje.error {
+  color: var(--red);
+  border-color: var(--red);
+  background: rgba(243, 139, 168, 0.08);
+}
+
+.auth-mensaje.exito {
+  color: var(--green);
+  border-color: var(--green);
+  background: rgba(166, 227, 161, 0.08);
+}
+
+.auth-link {
+  margin-top: 18px;
+  font-size: 13px;
+  color: var(--dim);
+  text-align: center;
+}
+
+.auth-link a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* ── Barra de usuario logueado (header de index.html) ────── */
+#user-bar {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#user-info {
+  font-size: 13px;
+  color: var(--soft);
+}
+
+#user-info strong {
+  color: var(--accent);
+}
+
+#btn-logout {
+  padding: 6px 14px;
+  font-size: 12px;
+  width: auto;
+}

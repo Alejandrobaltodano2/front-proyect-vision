@@ -138,7 +138,7 @@ async function enviarAudio(blob, preguntaObj) {
   if (frameUrl) form.append('frame', frameUrl)
 
   try {
-    const res = await fetch(`${server_preguntas}/api/evaluacion/transcribir`, { method: 'POST', body: form })
+    const res = await authFetch(`${server_preguntas}/api/evaluacion/transcribir`, { method: 'POST', body: form })
     const url = URL.createObjectURL(blob);
     console.log("url:", url)
     return await res.json()

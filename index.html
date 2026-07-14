@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sistema de Evaluación</title>
   <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="css/auth.css"/>
 </head>
 <body>
 
@@ -17,6 +18,13 @@
       <div class="eyebrow">◆  SISTEMA DE EVALUACIÓN</div>
       <h1>Entrenamiento de Voz</h1>
       <p class="subtitle">El sistema habla la pregunta — luego tú respondes por micrófono</p>
+
+      <!-- Usuario autenticado (lo llena auth-guard.js con el username guardado
+           en el login/registro) + boton para cerrar sesion -->
+      <div id="user-bar">
+        <span id="user-info">Conectado como <strong id="user-nombre">—</strong></span>
+        <button class="btn btn-secondary" id="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
     </header>
     <div class="sep"></div>
     <div class="sep2"></div>
@@ -130,9 +138,13 @@
 </footer>
 
 <!--
+  auth-guard.js va PRIMERO: si no hay sesion, redirige a login.html
+  antes de que el resto de scripts intente usar la camara/microfono.
+
   Módulos JS cargados en orden de dependencia:
-  config → estado → ui → camara → microfono → evaluacion → app
+  auth-guard → config → estado → ui → camara → microfono → evaluacion → app
 -->
+<script src="js/auth-guard.js"></script>
 <script src="js/config.js"></script>
 <script src="js/estado.js"></script>
 <script src="js/ui.js"></script>
@@ -140,6 +152,14 @@
 <script src="js/microfono.js"></script>
 <script src="js/evaluacion.js"></script>
 <script src="js/app.js"></script>
+
+<!-- Muestra el username guardado en el login/registro -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const username = localStorage.getItem('auth_username')
+    document.getElementById('user-nombre').textContent = username || '—'
+  })
+</script>
 
 </body>
 </html>

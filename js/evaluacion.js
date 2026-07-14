@@ -54,8 +54,7 @@ function detenerEvaluacion() {
  */
 async function _cargarPreguntas() {
 
-    const res = await fetch(`${server_preguntas}/preguntas`);
-
+const res = await authFetch(`${server_preguntas}/preguntas`);
     if (!res.ok) {
         throw new Error("No se pudieron cargar las preguntas");
     }
