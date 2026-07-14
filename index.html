@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Evaluación</title>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+
+<div id="app">
+  <div id="sidebar"></div>
+  <div id="main">
+
+    <!-- ── Header ───────────────────────────── -->
+    <header>
+      <div class="eyebrow">◆  SISTEMA DE EVALUACIÓN</div>
+      <h1>Entrenamiento de Voz</h1>
+      <p class="subtitle">El sistema habla la pregunta — luego tú respondes por micrófono</p>
+    </header>
+    <div class="sep"></div>
+    <div class="sep2"></div>
+
+    <!-- ── Grid ─────────────────────────────── -->
+    <div id="grid">
+
+      <!-- Card: Cámara -->
+      <div class="card">
+        <div class="card-hdr">
+          <div class="dot" id="dot-cam"></div>
+          <span class="title">Cámara en vivo</span>
+          <span class="badge" id="badge-cam">Inactiva</span>
+        </div>
+        <div class="card-body">
+
+          <div id="cam-wrap">
+            <video id="video" autoplay playsinline></video>
+            <canvas id="canvas"></canvas>
+            <div id="cam-ph">
+              <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
+                <path d="M15 10l4.553-2.277A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.9L15 14
+                         M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
+              </svg>
+              Cámara no iniciada
+            </div>
+            <div id="attn-badge">👁 Cargando…</div>
+          </div>
+
+          <p class="sec-label accent">PREGUNTA ACTUAL</p>
+          <div id="question-box">Inicia la evaluación para ver la pregunta…</div>
+
+          <div class="bar-group">
+            <p class="bar-lbl">Atención a cámara acumulada</p>
+            <div class="bar-track"><div class="bar-fill" id="attn-fill"></div></div>
+            <p class="bar-info" id="attn-txt">—</p>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-primary"   id="btn-cam">▶ Cámara</button>
+            <button class="btn btn-secondary" id="btn-reset">↺ Reiniciar</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Card: Estado / Micrófono -->
+      <div class="card">
+        <div class="card-hdr">
+          <div class="dot" id="dot-mic"></div>
+          <span class="title">Estado del sistema</span>
+        </div>
+        <div class="card-body">
+
+          <p class="sec-label accent">ESTADO</p>
+          <div class="divider"></div>
+          <div id="status-row">
+            <span id="status-big">●</span>
+            <span id="status-txt">Esperando inicio…</span>
+          </div>
+
+          <div id="speaking-ring">
+            <span class="ring-icon">🔊</span>
+            <span id="speaking-txt">Reproduciendo pregunta…</span>
+          </div>
+
+          <div>
+            <p class="sec-label accent">PROGRESO</p>
+            <div class="divider"></div>
+            <div id="progress-wrap">
+              <span id="progress-label">—</span>
+              <div id="dots-wrap"></div>
+            </div>
+          </div>
+
+          <p class="sec-label dim">MICRÓFONO</p>
+          <div id="wave-wrap"><canvas id="waveform"></canvas></div>
+
+          <p class="sec-label dim">TRANSCRIPCIÓN RECONOCIDA</p>
+          <div id="transcript">Aún no hay audio…</div>
+
+          <div class="divider"></div>
+          <div class="bar-group">
+            <p class="bar-lbl">Acierto de última respuesta</p>
+            <div class="bar-track"><div class="bar-fill" id="result-fill"></div></div>
+            <p id="pct-big">—</p>
+            <p class="sec-label dim top-gap">FALTANTES</p>
+            <p id="missing">Sin resultados aún</p>
+          </div>
+
+          <button class="btn btn-primary btn-full" id="btn-eval">▶▶ Iniciar evaluación</button>
+          <button class="btn btn-danger  btn-full" id="btn-stop" disabled>■ Detener</button>
+
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+
+    <!-- ── Reporte final ─────────────────────── -->
+    <section id="report">
+      <h2>📊 Reporte de sesión</h2>
+      <div id="report-content"></div>
+    </section>
+
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<footer id="footer">
+  <span>© Sistema de Evaluación</span>
+  <span id="footer-r">● Listo</span>
+</footer>
+
+<!--
+  Módulos JS cargados en orden de dependencia:
+  config → estado → ui → camara → microfono → evaluacion → app
+-->
+<script src="js/config.js"></script>
+<script src="js/estado.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/camara.js"></script>
+<script src="js/microfono.js"></script>
+<script src="js/evaluacion.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
