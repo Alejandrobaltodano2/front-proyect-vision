@@ -3,64 +3,92 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Registrarse — Sistema de Evaluación</title>
+  <title>Crear cuenta | A&G Systems</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <link rel="stylesheet" href="css/auth.css"/>
 </head>
-<body>
+<body class="auth-page">
+<div class="auth-shell">
+  <section class="auth-visual" aria-label="Presentación de A&G Systems">
+    <div class="auth-grid"></div>
+    <div class="auth-orb auth-orb-one"></div>
+    <div class="auth-orb auth-orb-two"></div>
 
-<div id="app">
-  <div id="sidebar"></div>
-  <div id="main">
+    <a class="auth-brand" href="login.html" aria-label="A&G Systems">
+      <span class="auth-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M32 6v52M28 10c-8-6-18 0-16 10-8 3-8 15 0 18-2 10 8 16 16 10M36 10c8-6 18 0 16 10 8 3 8 15 0 18 2 10-8 16-16 10M16 22h12M36 22h12M13 35h15M36 35h15M20 47h8M36 47h8"/></svg>
+      </span>
+      <span><strong>A&amp;G</strong><small>SIMULADOR DE ENTREVISTAS</small></span>
+    </a>
 
-    <div class="auth-wrap">
-      <div class="card auth-card">
-        <div class="card-hdr">
-          <div class="dot"></div>
-          <span class="title">Crear cuenta</span>
-        </div>
-        <div class="card-body">
-
-          <form id="form-registro" novalidate>
-
-            <label class="auth-label" for="reg-username">Usuario *</label>
-            <input class="auth-input" type="text" id="reg-username" name="username"
-                   autocomplete="username" required/>
-
-            <label class="auth-label" for="reg-password">Contraseña *</label>
-            <input class="auth-input" type="password" id="reg-password" name="password"
-                   autocomplete="new-password" required/>
-
-            <label class="auth-label" for="reg-nombres">Nombres</label>
-            <input class="auth-input" type="text" id="reg-nombres" name="nombres"
-                   autocomplete="given-name"/>
-
-            <label class="auth-label" for="reg-apellidos">Apellidos</label>
-            <input class="auth-input" type="text" id="reg-apellidos" name="apellidos"
-                   autocomplete="family-name"/>
-
-            <label class="auth-label" for="reg-carrera">Carrera</label>
-            <input class="auth-input" type="text" id="reg-carrera" name="carrera"/>
-
-            <div id="registro-mensaje" class="auth-mensaje" style="display:none;"></div>
-
-            <button type="submit" id="btn-registro" class="btn btn-primary btn-full auth-btn">
-              Registrarme
-            </button>
-
-          </form>
-
-          <p class="auth-link">
-            ¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a>
-          </p>
-
-        </div>
+    <div class="auth-hero-copy">
+      <span class="auth-kicker"><i></i> CREA TU PERFIL DE ENTRENAMIENTO</span>
+      <h1>Convierte cada práctica en una ventaja profesional.</h1>
+      <p>Registra tu cuenta y accede a simulaciones de entrevistas con análisis de voz, atención y evolución de resultados.</p>
+      <div class="auth-feature-row">
+        <span>◉ Práctica personalizada</span>
+        <span>◎ Historial de resultados</span>
+        <span>◇ Evaluación inteligente</span>
       </div>
     </div>
 
-  </div>
-</div>
+    <div class="auth-ai" aria-hidden="true">
+      <div class="auth-ai-head">
+        <span class="auth-ai-eye"></span>
+        <span class="auth-ai-eye"></span>
+      </div>
+      <div class="auth-ai-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
 
+    <p class="auth-visual-footer">A&amp;G Systems · Tu preparación comienza aquí.</p>
+  </section>
+
+  <main class="auth-panel auth-panel-register">
+    <div class="auth-panel-top"><span class="auth-status"><i></i> REGISTRO SEGURO</span></div>
+
+    <div class="auth-card-new auth-card-register">
+      <div class="auth-card-icon" aria-hidden="true">＋</div>
+      <div class="auth-heading">
+        <span>ÚNETE A A&amp;G SYSTEMS</span>
+        <h2>Crear cuenta</h2>
+        <p>Completa tus datos para empezar a practicar.</p>
+      </div>
+
+      <form id="form-registro" novalidate>
+        <div class="auth-form-grid">
+          <div class="auth-form-group">
+            <label class="auth-label" for="reg-username">Usuario *</label>
+            <div class="auth-field"><span class="auth-field-icon">◯</span><input class="auth-input" type="text" id="reg-username" name="username" autocomplete="username" placeholder="Crea un usuario" required/></div>
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-label" for="reg-password">Contraseña *</label>
+            <div class="auth-field"><span class="auth-field-icon">⌁</span><input class="auth-input" type="password" id="reg-password" name="password" autocomplete="new-password" placeholder="Crea una contraseña" required/></div>
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-label" for="reg-nombres">Nombres</label>
+            <div class="auth-field"><span class="auth-field-icon">◇</span><input class="auth-input" type="text" id="reg-nombres" name="nombres" autocomplete="given-name" placeholder="Tus nombres"/></div>
+          </div>
+          <div class="auth-form-group">
+            <label class="auth-label" for="reg-apellidos">Apellidos</label>
+            <div class="auth-field"><span class="auth-field-icon">◇</span><input class="auth-input" type="text" id="reg-apellidos" name="apellidos" autocomplete="family-name" placeholder="Tus apellidos"/></div>
+          </div>
+          <div class="auth-form-group auth-form-full">
+            <label class="auth-label" for="reg-carrera">Carrera</label>
+            <div class="auth-field"><span class="auth-field-icon">⌘</span><input class="auth-input" type="text" id="reg-carrera" name="carrera" placeholder="Ej. Ingeniería de Sistemas"/></div>
+          </div>
+        </div>
+
+        <div id="registro-mensaje" class="auth-mensaje" style="display:none;"></div>
+        <button type="submit" id="btn-registro" class="auth-submit">Crear mi cuenta <span>→</span></button>
+      </form>
+
+      <div class="auth-divider"><span>¿Ya tienes una cuenta?</span></div>
+      <p class="auth-link">Regresa al acceso principal. <a href="login.html">Inicia sesión</a></p>
+    </div>
+
+    <p class="auth-panel-footer">© A&amp;G Systems · Registro protegido</p>
+  </main>
+</div>
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 </body>

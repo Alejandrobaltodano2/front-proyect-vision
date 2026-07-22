@@ -3,65 +3,84 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Iniciar sesión — Sistema de Evaluación</title>
+  <title>Iniciar sesión | A&G Systems</title>
   <link rel="stylesheet" href="css/styles.css"/>
   <link rel="stylesheet" href="css/auth.css"/>
 </head>
-<body>
+<body class="auth-page">
+<div class="auth-shell">
+  <section class="auth-visual" aria-label="Presentación de A&G Systems">
+    <div class="auth-grid"></div>
+    <div class="auth-orb auth-orb-one"></div>
+    <div class="auth-orb auth-orb-two"></div>
 
-<div id="app">
-  <div id="sidebar"></div>
-  <div id="main">
+    <a class="auth-brand" href="login.html" aria-label="A&G Systems">
+      <span class="auth-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M32 6v52M28 10c-8-6-18 0-16 10-8 3-8 15 0 18-2 10 8 16 16 10M36 10c8-6 18 0 16 10 8 3 8 15 0 18 2 10-8 16-16 10M16 22h12M36 22h12M13 35h15M36 35h15M20 47h8M36 47h8"/></svg>
+      </span>
+      <span><strong>A&amp;G</strong><small>SIMULADOR DE ENTREVISTAS</small></span>
+    </a>
 
-    <div class="auth-wrap">
-      <div class="card auth-card">
-        <div class="card-hdr">
-          <div class="dot"></div>
-          <span class="title">Iniciar sesión</span>
-        </div>
-        <div class="card-body">
-
-          <form id="form-login" novalidate>
-
-            <label class="auth-label" for="login-username">Usuario</label>
-            <input
-              class="auth-input"
-              type="text"
-              id="login-username"
-              name="username"
-              autocomplete="username"
-              required
-            />
-
-            <label class="auth-label" for="login-password">Contraseña</label>
-            <input
-              class="auth-input"
-              type="password"
-              id="login-password"
-              name="password"
-              autocomplete="current-password"
-              required
-            />
-
-            <div id="login-mensaje" class="auth-mensaje" style="display:none;"></div>
-
-            <button type="submit" id="btn-login" class="btn btn-primary btn-full auth-btn">
-              Ingresar
-            </button>
-
-          </form>
-
-          <p class="auth-link">
-            ¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a>
-          </p>
-
-        </div>
+    <div class="auth-hero-copy">
+      <span class="auth-kicker"><i></i> ENTRENAMIENTO CON INTELIGENCIA ARTIFICIAL</span>
+      <h1>Prepárate hoy para tu próxima gran oportunidad.</h1>
+      <p>Practica entrevistas, fortalece tus respuestas y mide tu progreso en una experiencia moderna, segura e interactiva.</p>
+      <div class="auth-feature-row">
+        <span>◉ Análisis de voz</span>
+        <span>◎ Seguimiento de progreso</span>
+        <span>◇ Retroalimentación inteligente</span>
       </div>
     </div>
 
-  </div>
-</div>
+    <div class="auth-ai" aria-hidden="true">
+      <div class="auth-ai-head">
+        <span class="auth-ai-eye"></span>
+        <span class="auth-ai-eye"></span>
+      </div>
+      <div class="auth-ai-wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
 
+    <p class="auth-visual-footer">A&amp;G Systems · Tecnología que te prepara para el futuro.</p>
+  </section>
+
+  <main class="auth-panel">
+    <div class="auth-panel-top">
+      <span class="auth-status"><i></i> PLATAFORMA EN LÍNEA</span>
+    </div>
+
+    <div class="auth-card-new">
+      <div class="auth-card-icon" aria-hidden="true">↳</div>
+      <div class="auth-heading">
+        <span>BIENVENIDO DE NUEVO</span>
+        <h2>Iniciar sesión</h2>
+        <p>Ingresa tus credenciales para continuar con tu entrenamiento.</p>
+      </div>
+
+      <form id="form-login" novalidate>
+        <label class="auth-label" for="login-username">Usuario</label>
+        <div class="auth-field">
+          <span class="auth-field-icon">◯</span>
+          <input class="auth-input" type="text" id="login-username" name="username" autocomplete="username" placeholder="Escribe tu usuario" required/>
+        </div>
+
+        <label class="auth-label" for="login-password">Contraseña</label>
+        <div class="auth-field">
+          <span class="auth-field-icon">⌁</span>
+          <input class="auth-input" type="password" id="login-password" name="password" autocomplete="current-password" placeholder="Escribe tu contraseña" required/>
+        </div>
+
+        <div id="login-mensaje" class="auth-mensaje" style="display:none;"></div>
+
+        <button type="submit" id="btn-login" class="auth-submit">Ingresar al simulador <span>→</span></button>
+      </form>
+
+      <div class="auth-divider"><span>¿Primera vez aquí?</span></div>
+      <p class="auth-link">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+    </div>
+
+    <p class="auth-panel-footer">© A&amp;G Systems · Acceso seguro</p>
+  </main>
+</div>
 <script src="js/config.js"></script>
 <script src="js/auth.js"></script>
 </body>

@@ -3,137 +3,148 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sistema de Evaluación</title>
+  <title>A&G | Simulador de Entrevistas</title>
   <link rel="stylesheet" href="css/styles-opcion-c.css"/>
-  <link rel="stylesheet" href="css/auth.css"/>
 </head>
 <body>
-
 <div id="app">
-  <div id="sidebar"></div>
-  <div id="main">
+  <aside id="sidebar" aria-label="Navegación principal">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img"><path d="M32 6v52M28 10c-8-6-18 0-16 10-8 3-8 15 0 18-2 10 8 16 16 10M36 10c8-6 18 0 16 10 8 3 8 15 0 18 2 10-8 16-16 10M16 22h12M36 22h12M13 35h15M36 35h15M20 47h8M36 47h8"/></svg>
+      </div>
+      <div class="brand-copy">
+        <strong>A&amp;G</strong>
+        <span>SIMULADOR DE ENTREVISTAS</span>
+      </div>
+    </div>
 
-    <!-- ── Header ───────────────────────────── -->
+    <nav class="nav-menu">
+      <a class="nav-item active" href="#" aria-current="page"><span class="nav-icon">⌂</span><span>Inicio</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">✓</span><span>Evaluaciones</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">◷</span><span>Historial</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">▥</span><span>Progreso</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">♙</span><span>Perfil</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">⚙</span><span>Ajustes</span></a>
+      <a class="nav-item" href="#"><span class="nav-icon">?</span><span>Ayuda</span></a>
+    </nav>
+
+    <div class="sidebar-card">
+      <div class="mini-brand"><b>A&amp;G</b> SYSTEMS</div>
+      <p>Tecnología que te prepara para el futuro.</p>
+      <div class="chip-art" aria-hidden="true">⌘</div>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div class="tech-face" aria-hidden="true">
+      <svg viewBox="0 0 420 250" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id="faceGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#13c9ff"/><stop offset="1" stop-color="#954cff"/></linearGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <path class="face-line" d="M286 14c-42 18-74 62-67 105 4 25 21 38 36 52 13 12 17 30 6 57M286 14c45 12 81 47 96 91M254 46l34 20-12 29 19 15-12 25 13 20-31 25"/>
+        <g class="nodes"><circle cx="291" cy="25" r="3"/><circle cx="332" cy="38" r="3"/><circle cx="356" cy="67" r="3"/><circle cx="276" cy="66" r="3"/><circle cx="303" cy="91" r="3"/><circle cx="270" cy="120" r="3"/><circle cx="304" cy="143" r="3"/><circle cx="284" cy="176" r="3"/></g>
+        <path class="wave" d="M10 146h48l8-18 10 37 12-62 12 83 13-49 14 25 13-48 16 31h64"/>
+      </svg>
+    </div>
+
     <header>
-      <div class="eyebrow-row">
-        <div class="eyebrow">◆  SISTEMA DE EVALUACIÓN</div>
-        <div id="onair" class="onair">
-          <span class="onair-dot"></span>
-          <span id="onair-txt">FUERA DE LÍNEA</span>
+      <div class="header-copy">
+        <h1>Entrenamiento de Voz</h1>
+        <p class="subtitle">El sistema habla la pregunta — luego tú respondes por micrófono</p>
+        <div id="user-bar">
+          <span class="online-user-dot"></span>
+          <span id="user-info">Conectado como <strong id="user-nombre">—</strong></span>
         </div>
       </div>
-      <h1>Entrenamiento de Voz</h1>
-      <p class="subtitle">El sistema habla la pregunta — luego tú respondes por micrófono</p>
-
-      <div id="user-bar">
-        <span id="user-info">Conectado como <strong id="user-nombre">—</strong></span>
-        <button class="btn btn-secondary" id="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+      <div class="header-actions">
+        <div id="onair" class="onair"><span class="onair-dot"></span><span id="onair-txt">FUERA DE LÍNEA</span></div>
+        <button class="btn btn-secondary" id="btn-logout" onclick="cerrarSesion()">Cerrar sesión <span>⇥</span></button>
       </div>
     </header>
-    <div class="sep"></div>
-    <div class="sep2"></div>
 
-    <!-- ── Grid ─────────────────────────────── -->
-    <div id="grid">
-
-      <!-- Card: Cámara -->
-      <div class="card">
+    <section id="grid">
+      <article class="card camera-card">
         <div class="card-hdr">
-          <div class="dot" id="dot-cam"></div>
+          <div class="hdr-icon camera-icon">▣</div>
           <span class="title">Cámara en vivo</span>
           <span class="badge" id="badge-cam">Inactiva</span>
+          <div class="dot sr-only" id="dot-cam"></div>
         </div>
         <div class="card-body">
-
           <div id="cam-wrap">
             <video id="video" autoplay playsinline></video>
             <canvas id="canvas"></canvas>
             <div id="cam-ph">
-              <svg width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24">
-                <path d="M15 10l4.553-2.277A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.9L15 14
-                         M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/>
-              </svg>
-              Cámara no iniciada
+              <svg width="54" height="54" fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24"><path d="M15 10l4.553-2.277A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.9L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+              <strong>Cámara no iniciada</strong>
+              <span>Activa tu cámara para comenzar la evaluación</span>
             </div>
             <div id="attn-badge">👁 Cargando…</div>
           </div>
 
-          <p class="sec-label accent">PREGUNTA ACTUAL</p>
+          <div class="question-heading"><span>?</span><b>PREGUNTA ACTUAL</b></div>
           <div id="question-box">Inicia la evaluación para ver la pregunta…</div>
 
           <div class="btn-row">
-            <button class="btn btn-primary"   id="btn-cam">▶ Cámara</button>
-            <button class="btn btn-secondary" id="btn-reset">↺ Reiniciar</button>
+            <button class="btn btn-primary" id="btn-cam">▣ Activar cámara</button>
+            <button class="btn btn-secondary" id="btn-reset">↻ Reiniciar</button>
           </div>
-
         </div>
-      </div>
+      </article>
 
-      <!-- Card: Estado / Micrófono -->
-      <div class="card">
+      <article class="card status-card">
         <div class="card-hdr">
-          <div class="dot" id="dot-mic"></div>
+          <div class="hdr-icon pulse-icon">⌁</div>
           <span class="title">Estado del sistema</span>
+          <div class="dot sr-only" id="dot-mic"></div>
         </div>
         <div class="card-body">
+          <section class="status-section status-compact">
+            <div class="round-icon">◷</div>
+            <div><p class="sec-label accent">ESTADO</p><div id="status-row"><span id="status-big">●</span><span id="status-txt">Esperando inicio…</span></div></div>
+          </section>
 
-          <p class="sec-label accent">ESTADO</p>
-          <div class="divider"></div>
-          <div id="status-row">
-            <span id="status-big">●</span>
-            <span id="status-txt">Esperando inicio…</span>
-          </div>
+          <div id="speaking-ring"><span class="ring-icon">◖</span><span id="speaking-txt">Reproduciendo pregunta…</span></div>
 
-          <div id="speaking-ring">
-            <span class="ring-icon">🔊</span>
-            <span id="speaking-txt">Reproduciendo pregunta…</span>
-          </div>
+          <section class="status-section status-compact">
+            <div class="round-icon">⌁</div>
+            <div class="grow"><p class="sec-label accent">PROGRESO</p><div id="progress-wrap"><span id="progress-label">—</span><div id="dots-wrap"></div></div></div>
+          </section>
 
-          <div>
-            <p class="sec-label accent">PROGRESO</p>
-            <div class="divider"></div>
-            <div id="progress-wrap">
-              <span id="progress-label">—</span>
-              <div id="dots-wrap"></div>
+          <section class="status-section field-section">
+            <div class="round-icon">♩</div>
+            <div class="grow"><p class="sec-label accent">MICRÓFONO</p><div id="wave-wrap"><canvas id="waveform"></canvas></div></div>
+          </section>
+
+          <section class="status-section field-section">
+            <div class="round-icon">▤</div>
+            <div class="grow"><p class="sec-label accent">TRANSCRIPCIÓN RECONOCIDA</p><div id="transcript">Aún no hay audio…</div></div>
+          </section>
+
+          <section class="result-section">
+            <div class="question-heading"><span>+</span><b>ACIERTOS DE ÚLTIMA RESPUESTA</b></div>
+            <div class="result-content">
+              <div class="score-ring"><p id="pct-big">—</p></div>
+              <div class="bar-group">
+                <div class="bar-track"><div class="bar-fill" id="result-fill"></div></div>
+                <p class="sec-label dim top-gap">FALTANTES</p>
+                <p id="missing">Sin resultados aún</p>
+              </div>
             </div>
-          </div>
-
-          <p class="sec-label dim">MICRÓFONO</p>
-          <div id="wave-wrap"><canvas id="waveform"></canvas></div>
-
-          <p class="sec-label dim">TRANSCRIPCIÓN RECONOCIDA</p>
-          <div id="transcript">Aún no hay audio…</div>
-
-          <div class="divider"></div>
-          <div class="bar-group">
-            <p class="bar-lbl">Acierto de última respuesta</p>
-            <div class="bar-track"><div class="bar-fill" id="result-fill"></div></div>
-            <p id="pct-big">—</p>
-            <p class="sec-label dim top-gap">FALTANTES</p>
-            <p id="missing">Sin resultados aún</p>
-          </div>
+          </section>
 
           <button class="btn btn-primary btn-full" id="btn-eval">▶▶ Iniciar evaluación</button>
-          <button class="btn btn-danger  btn-full" id="btn-stop" disabled>■ Detener</button>
-
+          <button class="btn btn-danger btn-full" id="btn-stop" disabled>⊗ Detener</button>
         </div>
-      </div>
-
-    </div><!-- /grid -->
-
-    <!-- ── Reporte final ─────────────────────── -->
-    <section id="report">
-      <h2>📊 Reporte de sesión</h2>
-      <div id="report-content"></div>
+      </article>
     </section>
 
-  </div><!-- /main -->
-</div><!-- /app -->
-
-<footer id="footer">
-  <span>© Sistema de Evaluación</span>
-  <span id="footer-r">● Listo</span>
-</footer>
+    <section id="report"><h2>📊 Reporte de sesión</h2><div id="report-content"></div></section>
+    <footer id="footer"><span>© A&amp;G Systems · Simulador de entrevistas</span><span id="footer-r">● Listo</span></footer>
+  </main>
+</div>
 
 <script src="js/auth-guard.js"></script>
 <script src="js/config.js"></script>
@@ -143,26 +154,19 @@
 <script src="js/microfono.js"></script>
 <script src="js/evaluacion.js"></script>
 <script src="js/app.js"></script>
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const username = localStorage.getItem('auth_username')
     document.getElementById('user-nombre').textContent = username || '—'
   })
-
-  // Indicador "ON AIR": se enciende solo cuando camara Y microfono estan
-  // activos al mismo tiempo -- exactamente cuando el sistema te esta
-  // observando/escuchando de verdad, como el testigo de una cabina de
-  // grabacion real.
   setInterval(() => {
     const activo = typeof Estado !== 'undefined' && Estado.camRunning && Estado.micActive
-    const badge  = document.getElementById('onair')
-    const txt    = document.getElementById('onair-txt')
+    const badge = document.getElementById('onair')
+    const txt = document.getElementById('onair-txt')
     if (!badge) return
     badge.classList.toggle('live', !!activo)
-    txt.textContent = activo ? 'EN VIVO' : 'FUERA DE LÍNEA'
+    txt.textContent = activo ? 'EN LÍNEA' : 'FUERA DE LÍNEA'
   }, 400)
 </script>
-
 </body>
 </html>
