@@ -79,18 +79,6 @@ function setAttencionUI(mirando, estado) {
  * @param {number} framesTotal   - Total de frames procesados.
  * @param {number} framesMirando - Frames con contacto visual.
  */
-function setBarraAtencion(framesTotal, framesMirando) {
-  if (!framesTotal) return
-  const pct   = Math.round(framesMirando / framesTotal * 100)
-  const color = pct >= 70 ? COLOR.green : pct >= 40 ? COLOR.amber : COLOR.red
-  const fill  = el('attn-fill')
-
-  fill.style.width      = pct + '%'
-  fill.style.background = color
-  el('attn-txt').textContent = `${pct}% (${framesMirando}/${framesTotal} frames)`
-  el('attn-txt').style.color = color
-}
-
 /**
  * Muestra u oculta el indicador de TTS en curso.
  * @param {boolean} visible - True para mostrar.
@@ -155,8 +143,6 @@ function marcarDot(idx, tipo, total) {
  * Resetea todos los elementos del DOM a su estado inicial.
  */
 function resetUI() {
-  el('attn-fill').style.width    = '0%'
-  el('attn-txt').textContent     = '—'
   el('result-fill').style.width  = '0%'
   el('pct-big').textContent      = '—'
   el('missing').textContent      = 'Sin resultados aún'
@@ -216,66 +202,73 @@ function mostrarReporte(pct_avg, pct_attn, resultados) {
   report.scrollIntoView({ behavior: 'smooth' })
 }
 
+/**
+ * Ventana flotante (modal) con las sugerencias de mejora, que aparece
+ * automaticamente apenas termina la entrevista. Se crea una sola vez y se
+ * reutiliza en las siguientes evaluaciones (solo se le cambia el contenido).
+ * Se cierra con el boton "Cerrar" o haciendo click fuera de la tarjeta.
+ * @param {object[]} sugerencias - Lista de { tipo, mensaje, detalle }.
+ */
+function mostrarModalSugerencias(sugerencias) {
+  if (!sugerencias || !sugerencias.length) return
 
-function mostrarReporte(pct_avg, pct_attn, resultados, sugerencias = []) {
-  const report = el('report')
-  report.style.display = 'block'
+  let overlay = document.getElementById('modal-sugerencias-overlay')
 
-  const cAvg  = pct_avg  >= 70 ? COLOR.green : pct_avg  >= 40 ? COLOR.amber : COLOR.red
-  const cAttn = pct_attn >= 70 ? COLOR.green : pct_attn >= 40 ? COLOR.amber : COLOR.red
+  if (!overlay) {
+    overlay = document.createElement('div')
+    overlay.id = 'modal-sugerencias-overlay'
+    overlay.style.cssText = `
+      position:fixed; inset:0; background:rgba(0,0,0,0.6);
+      display:flex; align-items:center; justify-content:center;
+      z-index:1000; padding:20px;
+    `
+    overlay.innerHTML = `
+      <div style="
+        background:var(--surface); border:1px solid var(--border);
+        border-radius:10px; max-width:480px; width:100%; max-height:80vh;
+        overflow-y:auto; padding:20px; box-shadow:0 10px 40px rgba(0,0,0,0.5);
+      ">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+          <span style="font-size:15px; font-weight:600; color:var(--text);">
+            📋 Sugerencias de mejora
+          </span>
+          <button id="btn-cerrar-modal-sugerencias" class="btn btn-secondary"
+                  style="padding:4px 10px; width:auto; font-size:12px;">
+            ✕ Cerrar
+          </button>
+        </div>
+        <div id="modal-sugerencias-content"></div>
+      </div>
+    `
+    document.body.appendChild(overlay)
 
-  const filas = resultados.map((r, i) => `
-    <div class="report-row">
-      <span style="color:var(--soft)">${i + 1}. ${r.pregunta.slice(0, 42)}…</span>
-      <span class="report-val" style="color:${r.porcentaje >= 50 ? COLOR.green : COLOR.red}">
-        ${r.porcentaje}%
-      </span>
-    </div>
-  `).join('')
+    // Cerrar al hacer click fuera de la tarjeta (sobre el fondo oscuro)
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.style.display = 'none'
+    })
+  }
 
-  // Cada sugerencia se pinta distinto segun su tipo: "respuesta" (revisar
-  // una pregunta puntual), "atencion" (mirar mas a la camara) o "positivo"
-  // (todo bien, sin nada que corregir).
   const iconoPorTipo = { respuesta: '📝', atencion: '👁', positivo: '✅' }
   const colorPorTipo  = { respuesta: COLOR.amber, atencion: COLOR.amber, positivo: COLOR.green }
 
-  const bloqueSugerencias = sugerencias.length ? `
-    <div style="margin-top:14px" class="sec-label accent">SUGERENCIAS DE MEJORA</div>
-    <div class="divider" style="margin:5px 0 8px"></div>
-    ${sugerencias.map(s => `
-      <div class="sugerencia-item" style="border-left:3px solid ${colorPorTipo[s.tipo] || COLOR.amber};
-           padding:8px 10px; margin-bottom:8px; background:rgba(255,255,255,0.03); border-radius:4px;">
-        <div style="color:var(--text)">
-          ${iconoPorTipo[s.tipo] || '💡'} ${s.mensaje}
+  document.getElementById('modal-sugerencias-content').innerHTML = sugerencias.map(s => `
+    <div style="border-left:3px solid ${colorPorTipo[s.tipo] || COLOR.amber};
+         padding:8px 10px; margin-bottom:10px; background:rgba(255,255,255,0.03); border-radius:4px;">
+      <div style="color:var(--text)">${iconoPorTipo[s.tipo] || '💡'} ${s.mensaje}</div>
+      ${s.detalle ? `
+        <div style="margin-top:6px; padding-top:6px; border-top:1px dashed var(--border);
+             color:var(--soft); font-size:12.5px;">
+          <strong>Respuesta esperada:</strong> ${s.detalle}
         </div>
-        ${s.detalle ? `
-          <div style="margin-top:6px; padding-top:6px; border-top:1px dashed var(--border);
-               color:var(--soft); font-size:12.5px;">
-            <strong>Respuesta esperada:</strong> ${s.detalle}
-          </div>
-        ` : ''}
-      </div>
-    `).join('')}
-  ` : ''
+      ` : ''}
+    </div>
+  `).join('')
 
-  el('report-content').innerHTML = `
-    <div class="report-row">
-      <span>Acierto promedio</span>
-      <span class="report-val" style="color:${cAvg}">${pct_avg}%</span>
-    </div>
-    <div class="report-row">
-      <span>Atención a cámara</span>
-      <span class="report-val" style="color:${cAttn}">${pct_attn}%</span>
-    </div>
-    <div class="report-row">
-      <span>Preguntas respondidas</span>
-      <span class="report-val">${resultados.length}</span>
-    </div>
-    <div style="margin-top:10px" class="sec-label accent">DETALLE POR PREGUNTA</div>
-    <div class="divider" style="margin:5px 0 4px"></div>
-    ${filas}
-    ${bloqueSugerencias}
-  `
+  // El boton de cerrar se re-conecta cada vez (el contenido se reemplaza,
+  // pero el overlay/boton se crean una sola vez arriba).
+  document.getElementById('btn-cerrar-modal-sugerencias').onclick = () => {
+    overlay.style.display = 'none'
+  }
 
-  report.scrollIntoView({ behavior: 'smooth' })
+  overlay.style.display = 'flex'
 }

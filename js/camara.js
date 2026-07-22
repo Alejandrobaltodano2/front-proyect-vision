@@ -13,12 +13,10 @@ const canvas = document.getElementById('canvas')
 const ctx2d  = canvas.getContext('2d')
 
 
-/** Alterna entre encender y apagar la cámara. */
 async function toggleCamera() {
   Estado.camRunning ? pararCamara() : await iniciarCamara()
 }
 
-/** Solicita acceso a la cámara e inicia el bucle de detección. */
 async function iniciarCamara() {
   try {
     Estado.camStream = await navigator.mediaDevices.getUserMedia({
@@ -43,7 +41,6 @@ async function iniciarCamara() {
   }
 }
 
-/** Detiene la cámara y limpia recursos. */
 function pararCamara() {
   if (Estado.camStream) {
     Estado.camStream.getTracks().forEach(t => t.stop())
@@ -61,15 +58,11 @@ function pararCamara() {
   Estado.camRunning = false
 }
 
-/**
- * Captura un frame del video, lo envía al servidor /detect
- * y actualiza las métricas de atención en Estado y en la UI.
- * @private
- */
+const UMBRAL_FALLOS_CONSECUTIVOS = 3
+
 async function _analizarFrame() {
   if (!Estado.camRunning || !video.videoWidth) return
 
-  // Capturar frame (espejado para coincidir con lo que ve el usuario)
   canvas.width  = video.videoWidth
   canvas.height = video.videoHeight
   ctx2d.save()
@@ -80,30 +73,30 @@ async function _analizarFrame() {
   const dataUrl = canvas.toDataURL('image/jpeg', 0.45)
 
   try {
-      const res  = await authFetch(`${server_preguntas}/api/deteccion/detect`, {      method:  'POST',
+    const res  = await authFetch(`${server_preguntas}/api/deteccion/detect`, {
+      method:  'POST',
       headers: { 'Content-Type': 'application/json' },
       body:    JSON.stringify({ frame: dataUrl }),
     })
     const data = await res.json()
 
-    setAttencionUI(data.mirando, data.estado)
+    if (data.mirando) {
+      Estado.fallosConsecutivos = 0
+      setAttencionUI(true, data.estado)
+    } else {
+      Estado.fallosConsecutivos++
+      const mostrarComoNoMirando = Estado.fallosConsecutivos >= UMBRAL_FALLOS_CONSECUTIVOS
+      setAttencionUI(!mostrarComoNoMirando, data.estado)
+    }
 
     Estado.framesTotal++
     if (data.mirando) Estado.framesMirando++
 
   } catch {
-    // Servidor no disponible: contamos el frame pero no actualizamos badge
     Estado.framesTotal++
   }
-
-  setBarraAtencion(Estado.framesTotal, Estado.framesMirando)
 }
 
-/**
- * Captura el frame actual del video y devuelve su data URL.
- * Útil para adjuntarlo al envío de audio.
- * @returns {string|null}
- */
 function capturarFrameActual() {
   if (!Estado.camRunning || !video.videoWidth) return null
 
