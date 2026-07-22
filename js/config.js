@@ -10,7 +10,7 @@
 // ── Servidor Python ───────────────────────────
 
 
-const server_preguntas = 'https://proyect-entrevista-vision.onrender.com'
+const server_preguntas = 'http://localhost:8082'
 
 // ── Idioma TTS + STT (BCP-47) ─────────────────
 const IDIOMA = 'es-ES'

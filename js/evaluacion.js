@@ -1,20 +1,8 @@
-/**
- * evaluacion.js — Flujo principal de la evaluación.
- *
- * Orquesta el ciclo completo:
- *   iniciarEvaluacion → [por cada pregunta: hablar → grabar → enviar] → finalizarEvaluacion
- *
- * Depende de: config.js, estado.js, ui.js, camara.js, microfono.js
- */
 
-
-/** Punto de entrada: carga preguntas, prepara la sesión e itera. */
 async function iniciarEvaluacion() {
-  // Asegurar que cámara y micrófono estén activos
   if (!Estado.camRunning) await iniciarCamara()
   if (!Estado.micActive)  await iniciarMic()
 
-  // Cargar preguntas del servidor (con fallback a las de config.js)
   Estado.preguntas = await _cargarPreguntas()
 
   // Preparar estado de sesión
@@ -165,6 +153,35 @@ async function _finalizarEvaluacion() {
   await _hablar(`Evaluación finalizada. Tu porcentaje de acierto fue de ${pct_avg} por ciento.`)
 
   mostrarReporte(pct_avg, pct_attn, Estado.resultados)
+}
+
+async function _obtenerSugerencias() {
+  try {
+    const cuerpo = {
+      resultados: Estado.resultados.map(r => ({
+        pregunta:          r.pregunta,
+        respuestaEsperada: r.respuestaEsperada || '',
+        transcripcion:     r.transcripcion,
+        porcentaje:        r.porcentaje,
+        atencionPct:       r.mirando_pct,
+      })),
+    }
+
+    const res = await authFetch(`${server_preguntas}/api/evaluacion/resumen`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(cuerpo),
+    })
+
+    if (!res.ok) return []
+
+    const data = await res.json()
+    return data.sugerencias || []
+
+  } catch (e) {
+    console.warn('No se pudieron obtener sugerencias:', e.message)
+    return []
+  }
 }
 
 /**

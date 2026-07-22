@@ -215,3 +215,67 @@ function mostrarReporte(pct_avg, pct_attn, resultados) {
 
   report.scrollIntoView({ behavior: 'smooth' })
 }
+
+
+function mostrarReporte(pct_avg, pct_attn, resultados, sugerencias = []) {
+  const report = el('report')
+  report.style.display = 'block'
+
+  const cAvg  = pct_avg  >= 70 ? COLOR.green : pct_avg  >= 40 ? COLOR.amber : COLOR.red
+  const cAttn = pct_attn >= 70 ? COLOR.green : pct_attn >= 40 ? COLOR.amber : COLOR.red
+
+  const filas = resultados.map((r, i) => `
+    <div class="report-row">
+      <span style="color:var(--soft)">${i + 1}. ${r.pregunta.slice(0, 42)}…</span>
+      <span class="report-val" style="color:${r.porcentaje >= 50 ? COLOR.green : COLOR.red}">
+        ${r.porcentaje}%
+      </span>
+    </div>
+  `).join('')
+
+  // Cada sugerencia se pinta distinto segun su tipo: "respuesta" (revisar
+  // una pregunta puntual), "atencion" (mirar mas a la camara) o "positivo"
+  // (todo bien, sin nada que corregir).
+  const iconoPorTipo = { respuesta: '📝', atencion: '👁', positivo: '✅' }
+  const colorPorTipo  = { respuesta: COLOR.amber, atencion: COLOR.amber, positivo: COLOR.green }
+
+  const bloqueSugerencias = sugerencias.length ? `
+    <div style="margin-top:14px" class="sec-label accent">SUGERENCIAS DE MEJORA</div>
+    <div class="divider" style="margin:5px 0 8px"></div>
+    ${sugerencias.map(s => `
+      <div class="sugerencia-item" style="border-left:3px solid ${colorPorTipo[s.tipo] || COLOR.amber};
+           padding:8px 10px; margin-bottom:8px; background:rgba(255,255,255,0.03); border-radius:4px;">
+        <div style="color:var(--text)">
+          ${iconoPorTipo[s.tipo] || '💡'} ${s.mensaje}
+        </div>
+        ${s.detalle ? `
+          <div style="margin-top:6px; padding-top:6px; border-top:1px dashed var(--border);
+               color:var(--soft); font-size:12.5px;">
+            <strong>Respuesta esperada:</strong> ${s.detalle}
+          </div>
+        ` : ''}
+      </div>
+    `).join('')}
+  ` : ''
+
+  el('report-content').innerHTML = `
+    <div class="report-row">
+      <span>Acierto promedio</span>
+      <span class="report-val" style="color:${cAvg}">${pct_avg}%</span>
+    </div>
+    <div class="report-row">
+      <span>Atención a cámara</span>
+      <span class="report-val" style="color:${cAttn}">${pct_attn}%</span>
+    </div>
+    <div class="report-row">
+      <span>Preguntas respondidas</span>
+      <span class="report-val">${resultados.length}</span>
+    </div>
+    <div style="margin-top:10px" class="sec-label accent">DETALLE POR PREGUNTA</div>
+    <div class="divider" style="margin:5px 0 4px"></div>
+    ${filas}
+    ${bloqueSugerencias}
+  `
+
+  report.scrollIntoView({ behavior: 'smooth' })
+}
