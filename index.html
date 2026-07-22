@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sistema de Evaluación</title>
-  <link rel="stylesheet" href="css/styles.css"/>
+  <link rel="stylesheet" href="css/styles-opcion-c.css"/>
   <link rel="stylesheet" href="css/auth.css"/>
 </head>
 <body>
@@ -15,7 +15,13 @@
 
     <!-- ── Header ───────────────────────────── -->
     <header>
-      <div class="eyebrow">◆  SISTEMA DE EVALUACIÓN</div>
+      <div class="eyebrow-row">
+        <div class="eyebrow">◆  SISTEMA DE EVALUACIÓN</div>
+        <div id="onair" class="onair">
+          <span class="onair-dot"></span>
+          <span id="onair-txt">FUERA DE LÍNEA</span>
+        </div>
+      </div>
       <h1>Entrenamiento de Voz</h1>
       <p class="subtitle">El sistema habla la pregunta — luego tú respondes por micrófono</p>
 
@@ -143,6 +149,19 @@
     const username = localStorage.getItem('auth_username')
     document.getElementById('user-nombre').textContent = username || '—'
   })
+
+  // Indicador "ON AIR": se enciende solo cuando camara Y microfono estan
+  // activos al mismo tiempo -- exactamente cuando el sistema te esta
+  // observando/escuchando de verdad, como el testigo de una cabina de
+  // grabacion real.
+  setInterval(() => {
+    const activo = typeof Estado !== 'undefined' && Estado.camRunning && Estado.micActive
+    const badge  = document.getElementById('onair')
+    const txt    = document.getElementById('onair-txt')
+    if (!badge) return
+    badge.classList.toggle('live', !!activo)
+    txt.textContent = activo ? 'EN VIVO' : 'FUERA DE LÍNEA'
+  }, 400)
 </script>
 
 </body>
